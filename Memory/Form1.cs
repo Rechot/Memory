@@ -12,10 +12,9 @@ namespace Memory
 {
     public class MyButton : Button
     {
-        //this.button1.Click += new System.EventHandler(this.button1_Click);
+
         Form1 form1;
-        int myButtonID = 0;
-        bool firstClick = true;
+        public int myButtonID = 0;
 
         public MyButton(Form1 form1, int myButtonID)
         {
@@ -23,36 +22,37 @@ namespace Memory
             this.myButtonID = myButtonID;
         }
 
-        protected void button_Click(object sender, EventArgs e)
+        public void button_Click(object sender, EventArgs e)
         {
             if (this.BackColor != form1.mapColorToFiledNumberList[myButtonID])
             {
                 this.BackColor = form1.mapColorToFiledNumberList[myButtonID];
-                if (firstClick)
+                if (form1.firstClick)
                 {
                     form1.fieldNumberOneClicked = myButtonID;
-                    firstClick = false;
+                    form1.firstClick = false;
                 }
                 else
                 {
                     form1.fieldNumberTwoCliced = myButtonID;
-                    firstClick = true;
+                    form1.firstClick = true;
                     form1.checkWhetherColorMatch();
                     form1.ColorFileds();
                 }
             }
-
         }
     }
 
     public partial class Form1 : Form
     {
+
+        public Color[] mapColorToFiledNumberList = new Color[17];
+        public Color[] colorsList = new Color[8];
+        public int fieldNumberOneClicked = 0, fieldNumberTwoCliced = 0;
+        public bool firstClick = true;
         private Button[] buttons = new Button[17];
         private bool[] doesFieldHaveAColor = new bool[17];
         private bool[] coveredFileds = new bool[17];
-        public Color[] mapColorToFiledNumberList = new Color[17];
-        public Color[] colorsList = new Color[7];
-        public int fieldNumberOneClicked = 0, fieldNumberTwoCliced = 0;
 
         public Form1()
         {
@@ -60,12 +60,11 @@ namespace Memory
             InitializeColorsList();
             InitializeGameGrid();
             InitilizeButtonArray();
-            //this.button1.Click =
         }
 
         public void ColorFileds()
         {
-            for (int i = 1; i <= coveredFileds.Length; i++)
+            for (int i = 1; i < coveredFileds.Length; i++)
             {
                 if (coveredFileds[i] == false)
                 {
@@ -93,7 +92,10 @@ namespace Memory
             int uncoverdFieldsCount = 0;
             for (int i = 1; i < coveredFileds.Length; i++)
             {
-                uncoverdFieldsCount++;
+                if (coveredFileds[i] == false)
+                {
+                    uncoverdFieldsCount++;
+                }
             }
 
             if (uncoverdFieldsCount == coveredFileds.Length - 1) { MessageBox.Show("You have uncoverd all pairs! Well Done!"); }
@@ -135,7 +137,7 @@ namespace Memory
             }
             for (i = 1; i < coveredFileds.Length; i++)
             {
-                coveredFileds[i] = false;
+                coveredFileds[i] = true;
             }
         }
 
