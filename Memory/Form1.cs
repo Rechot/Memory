@@ -86,7 +86,7 @@ namespace Memory
                 coveredFileds[fieldNumberTwoCliced] = false;
             } else
             {
-                MessageBox.Show("Pair's been NOT found, Try again!");
+                MessageBox.Show("Pair's been NOT found. Try again!");
             }
 
             int uncoverdFieldsCount = 0;
